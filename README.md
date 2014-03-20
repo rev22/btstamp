@@ -17,7 +17,7 @@ After the transfer was accepted by the bitcoin network, you can use a blockchain
 
 This software uses [btproof](https://www.btproof.com/)'s algorithm and code, and is indeed compatible with btproof.
 
-### Install
+### Installation
 
 The btstamp script requires btproof's website sources, which you can obtain by importing the 'btproof' submodule.
 
@@ -25,6 +25,8 @@ The btstamp script requires btproof's website sources, which you can obtain by i
 git submodule init
 git submodule update
 ```
+
+It also requires coffeescript to be installed.
 
 ### Authors and licensing
 
