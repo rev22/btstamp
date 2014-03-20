@@ -1,0 +1,48 @@
+#!/usr/bin/env coffee
+
+fs = require "fs"
+vm = require "vm"
+cs = require "coffee-script"
+
+btProofDir = __dirname + "/btproof/"
+
+loadJsFile = (f)->
+  try
+    vm.runInThisContext(fs.readFileSync(f).toString())
+  catch error
+    throw "Error while loading file #{f}: #{error}"
+
+loadCoffeeFile = (f)->
+  try
+    code = fs.readFileSync(f).toString()
+    vm.runInThisContext(cs.compile(code, bare: true))
+  catch error
+    throw "Error while loading file #{f}: #{error}"
+
+root = (vm.runInThisContext("this"))
+root.window = root
+root.navigator = {}
+
+# disable page manipulation in timestamp.coffee
+root.$ = ()->
+  x = root.$
+  addClass: x
+  text: x
+  click: x
+  tooltip: x
+  focus: x
+  
+loadJsFile btProofDir + "lib/jsbn.js"
+loadJsFile btProofDir + "lib/bitcoin/base58.js"
+loadJsFile btProofDir + "lib/crypto-js/core.js"
+# loadJsFile "lib/crypto-js/lib-typedarrays.js"
+loadJsFile btProofDir + "lib/crypto-js/sha256.js"
+loadJsFile btProofDir + "lib/crypto-js/ripemd160.js"
+loadCoffeeFile btProofDir + "script/timestamp.coffee"
+
+f = process.argv[2]
+
+unless f
+  throw "Please specify a filename on the command line"
+
+console.log data_to_address fs.readFileSync(f).toString()

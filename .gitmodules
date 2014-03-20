@@ -1,0 +1,3 @@
+[submodule "btproof"]
+	path = btproof
+	url = https://github.com/shesek/btproof
